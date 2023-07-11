@@ -10,14 +10,11 @@ Original file is located at
 import os
 import sys
 
-
 class Vocab():
     def __init__(self):
         super().__init__()
         self.size=0
         self.dict= {}
-        #self.index_ref_list= []
-        #self.ref_vocab= None
     
     @classmethod
     def from_ref_vocab(cls, ref_vocab):
@@ -31,7 +28,6 @@ class Vocab():
         '''
         add index to index_ref_list which point at index of other vocab in ref_vocab 
         '''
-
         pass
 
     def add_word(self, token, freq= 1):
@@ -43,7 +39,6 @@ class Vocab():
         else: 
           self.dict[token]=1
 
-
     def count(self):
         return len(self.dict.items())
 
@@ -51,7 +46,6 @@ class Vocab():
         '''
         show top n word of dict
         '''
-
         for i in range(min(n,len(self.dict.items()))):
           print(list(self.dict.items())[i])
 
