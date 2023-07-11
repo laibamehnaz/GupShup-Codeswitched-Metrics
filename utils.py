@@ -26,13 +26,15 @@ class Vocab():
 
     def add_ref_index(self):
         '''
-        add index to index_ref_list which point at index of other vocab in ref_vocab 
+        add index to index_ref_list which point at index of
+        other vocab in ref_vocab 
         '''
         pass
 
     def add_word(self, token, freq= 1):
         '''
-        add word to dict with freq, if word already exist in vocab then provided freq will be added to existing freq
+        add word to dict with freq, if word already exist
+        in vocab then provided freq will be added to existing freq
         '''
         if token in self.dict:
           self.dict[token]+=1
