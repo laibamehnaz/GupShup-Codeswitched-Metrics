@@ -1,2 +1,1 @@
-# GupShup-Codeswitched-Metrics
-Code for computing codeswitched metrics on GupShup
+This repository contains the code for calculating different statistics and code-mixed metrics for the GupShup paper.
