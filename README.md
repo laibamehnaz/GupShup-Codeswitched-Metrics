@@ -1,1 +1,1 @@
-This repository contains the code for calculating different statistics and code-mixed metrics for the GupShup paper.
+This repository contains the code for calculating different statistics and code-mixed metrics for the [GupShup](https://aclanthology.org/2021.emnlp-main.499/) dataset. The code for training the models can be found here: 
