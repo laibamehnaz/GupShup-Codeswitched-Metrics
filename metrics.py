@@ -69,7 +69,6 @@ class CodeMixedStats:
         self.hindi_alternations = set()
 
     def read_tag_file(self, filepath, ner_others=False):
-
         file = open(filepath).read().split('\n')
         content = []
         if not ner_others:
@@ -89,9 +88,10 @@ class CodeMixedStats:
 
     def is_code_choice(self, token, actual_conv_id):
         """
-        is_code_choice() calculates the language tag of the given token.
-        token: token whose language is to be determined
-        actual_conv_id: the conversation id in the corpus to which this token belongs to.
+        Calculates the language tag of the given token.
+        Args:
+            token: token whose language tag is to be returned.
+            actual_conv_id: the conversation id in the Gupshup corpus to which this token belongs to.
         """
 
         obj = str.maketrans('', '', string.punctuation)
@@ -110,7 +110,7 @@ class CodeMixedStats:
 
     def remove_name(self, sentence):
         """
-        remove_name() removes the name of the speaker from the given utterance/sentence
+        Removes the name of the speaker from the given utterance/sentence.
         """
         try:
             index = sentence.index(':')
@@ -119,6 +119,13 @@ class CodeMixedStats:
         return sentence[index + 1:]
 
     def compute_vocabs(self, doc, actual_conv_id, lang):
+        """
+        Computes all the different vocab sets for the dataset, such as, total_vocab, eng_vocab, ner_vocab,
+        cm_eng_vocab, etc.
+        Args:
+            doc: spaCy doc object
+            actual_conv_id: the conversation id in the Gupshup corpus to which this token belongs to.
+        """
 
         for word in doc:
             code_choice = self.is_code_choice(word, actual_conv_id)
@@ -137,52 +144,54 @@ class CodeMixedStats:
 
     def get_total_utterances_and_vocab(self, conv, actual_conv_id):
         """
-        get_total_utterances_and_vocab() calculates all the utterances and vocabs for the dataset,
+        Calculates all the different utterance sets and vocabs sets for the dataset,
         for e.g., total_vocab, total_utter, etc.
-        :conv: conversation as read from the dataset
-        :actual_conv_id : id of the conversation as in the dataset, eg: 13818513
+        Args:
+            conv: conversation as read from the dataset
+            actual_conv_id : id of the conversation as in the GupShup dataset, eg: 13818513
         """
+
         dialogues = conv.split("\n")
         self.conversation.append(dialogues)
         self.conversation_ids.append(actual_conv_id)
 
         assert len(self.conversation) == len(self.conversation_ids)
 
-        curr_uttr = []
+        cur_utter = []
         for utter in dialogues:
             utter = self.remove_name(utter)
             doc = nlp(utter)
 
-            curr_uttr.append(utter)
+            cur_utter.append(utter)
             code_choice_list = [self.is_code_choice(token, actual_conv_id) for token in doc if token.text != ' ']
             lang = self.get_utterance_type(code_choice_list)
 
             self.compute_vocabs(doc, actual_conv_id, lang)
-            self.total_utter.add_ref_index((len(self.conversation) - 1, len(curr_uttr) - 1, len(code_choice_list)),
+            self.total_utter.add_ref_index((len(self.conversation) - 1, len(cur_utter) - 1, len(code_choice_list)),
                                            actual_conv_id)
 
             if not lang:
-                self.other_utter.add_ref_index((len(self.conversation) - 1, len(curr_uttr) - 1, len(code_choice_list)),
+                self.other_utter.add_ref_index((len(self.conversation) - 1, len(cur_utter) - 1, len(code_choice_list)),
                                                actual_conv_id)
             elif lang == 'English':
-                self.eng_utter.add_ref_index((len(self.conversation) - 1, len(curr_uttr) - 1, len(code_choice_list)),
+                self.eng_utter.add_ref_index((len(self.conversation) - 1, len(cur_utter) - 1, len(code_choice_list)),
                                              actual_conv_id)
 
             elif lang == 'Hindi':
-                self.native_utter.add_ref_index((len(self.conversation) - 1, len(curr_uttr) - 1, len(code_choice_list)),
+                self.native_utter.add_ref_index((len(self.conversation) - 1, len(cur_utter) - 1, len(code_choice_list)),
                                                 actual_conv_id)
             elif lang == 'code_mixed':
-                self.cm_utter.add_ref_index((len(self.conversation) - 1, len(curr_uttr) - 1, len(code_choice_list)),
+                self.cm_utter.add_ref_index((len(self.conversation) - 1, len(cur_utter) - 1, len(code_choice_list)),
                                             actual_conv_id)
             else:
-                self.other_utter.add_ref_index((len(self.conversation) - 1, len(curr_uttr) - 1, len(code_choice_list)),
+                self.other_utter.add_ref_index((len(self.conversation) - 1, len(cur_utter) - 1, len(code_choice_list)),
                                                actual_conv_id)
 
     def create_cm_sents(self):
         """
-        create_cm_sents() calculates the total number of code-mixed sentences, Hindi sentences, and English
+        Calculates the total number of code-mixed sentences, Hindi sentences, and English
         sentences in the corpus. This function must be called before calculating any metrics on matrix level
-        such as: insertions(), alternations()
+        such as: insertions(), alternations(), etc.
         """
 
         for i in range(len(self.cm_utter.index_ref_utter)):
@@ -199,16 +208,18 @@ class CodeMixedStats:
 
     def matrix_language_dist(self):
         """
-        matrix_language_dist() calculates the number of sentences with hindi_matrix and with english_matrix
+        Calculates the number of sentences with Hindi as the matrix lang and as well as English.
         """
         for i in range(len(self.cm_sents.sents)):
             self.matrix_lang_of_sents(self.cm_sents.sents[i][0], self.cm_sents.actual_ids[i], i)
 
     def matrix_lang_of_sents(self, sent, actual_conv_id, ref_id_sent, add=True):
-        """matrix_lang_of_sents() calculates the matrix language of the sentence.
-        sent: sentence
-        actual_conv_id: conversation id as in the corpus
-        ref_id_sent: id of the conversation as stored in the Sentence() object.
+        """
+        Calculates the matrix language of the sentence.
+        Args:
+            sent: sentence
+            actual_conv_id: conversation id as in the corpus
+            ref_id_sent: id of the conversation as stored in the Sentence() object.
         """
         operator_flag = 0
         bigram_flag = 0
@@ -276,6 +287,9 @@ class CodeMixedStats:
                     return 'English'
 
     def native_x(self, i, actual_conv_id):
+        """
+        Calculates the number of Hindi tokens in the given sentence.
+        """
         _id = actual_conv_id
         words = nlp(i)
         tln = 0
@@ -287,6 +301,9 @@ class CodeMixedStats:
         return self.N_x(i, actual_conv_id)
 
     def p_x(self, sent, actual_conv_id):
+        """
+        Calculates the number of switch points in the given sentence.
+        """
         _id = actual_conv_id
         words = nlp(sent)
         count = 0
@@ -294,7 +311,6 @@ class CodeMixedStats:
             return 0
         prev = ''
         for word in words:
-            # word = word.text
             icc = self.is_code_choice(word, _id)
             if icc in ['English', 'Hindi']:
                 if prev == '':
@@ -351,7 +367,6 @@ class CodeMixedStats:
             return 0
         prev = ''
         for word in words:
-            # word = str(word)
             if self.is_code_choice(word, _id) in ['English', 'Hindi']:
                 if prev == '':
                     prev = self.is_code_choice(word, _id)
@@ -439,8 +454,10 @@ class CodeMixedStats:
 
     def insertions_distributions(self, embedding_code="English"):
         """
-        insertions_distributions() calculates the number of single word insertion vs multi-word insertions
-        :embedding_code: Hindi or English, is the language of the insertion word/words
+        Calculates the number of single word insertion vs multi-word insertions in code-mixed sentences.
+        Args:
+            embedding_code: should be either Hindi or English, embedding_code is the language of the
+            insertion word/words.
         """
 
         single_word_insertions = set()
@@ -493,8 +510,10 @@ class CodeMixedStats:
 
     def alternations(self, embedding_code='English'):
         """
-        alternations() calculates the number of alternations(one of the types pf code-mixing) in code-mixed sentences
-        :param embedding_code: Hindi or English
+        Calculates the number of alternations(one of the types of code-mixing) in code-mixed sentences
+        Args:
+            embedding_code: should be either Hindi or English, embedding_code is the language of the
+            insertion word/words.
         """
 
         alternations = set()
@@ -533,6 +552,13 @@ class CodeMixedStats:
             return alternations
 
     def insertions(self, embedding_lang='English'):
+        """
+        Calculates the number of code-mixed sentences that have insertions as the type of the code-mixing
+        present.
+        Args:
+            embedding_lang: should be either Hindi or English, embedding_code is the language of the
+            insertion word/words.
+        """
 
         insertions = set()
         if embedding_lang == 'English':
@@ -578,8 +604,8 @@ class CodeMixedStats:
 
     def embedding_words_in_sentence_distribution(self, embedding='Hindi', matrix='English', save_words=True):
         """
-        embedding_words_in_sentence_distribution() calculates the distribution of number of words belonging to the
-        embedding language in the code-mixed sentences
+        Calculates the distribution of number of words(embedding language) present in code-mixed sentences
+        as insertions.
         """
         if embedding == 'Hindi' and matrix == 'English':
 
@@ -641,7 +667,11 @@ class CodeMixedStats:
 
     def k_nonnative_words_in_cm_sents(self, k=6, save_words=False, visualization=False):
         """
-        Calculates the number of english words(1,2,..,k) in the code-mixed sentences(with Hindi matrix)
+        Calculates the distribution of the number of english words(1,2,..,k) present in the code-mixed
+        sentences that have Hindi as the matrix language.
+        Args:
+            k: K can be any integer, for our corpus we have kept 6 as the upperbound.
+            visualization: If True, saves a bar graph for this distribution.
         """
         k_non_native_dict = {}
         for i in range(k + 1):
@@ -678,8 +708,8 @@ class CodeMixedStats:
             print("Figure for k non-native words distribution is saved in :{}\n".format(self.output_dir))
 
     def get_utterance_type(self, code_choice_list):
-        """get_utterance_type() returns the type of the utterenace given the language tags per token,
-        the utterance can be from one of the following types [Englis, Hindi, Code-mixed]
+        """Returns the type of the utterance given the language tags per token,
+        the utterance can be from one of the following types [English, Hindi, Code-mixed]
         """
 
         filtered_list = []  ### example : "thank you ji" --- [english, english, hindi]
