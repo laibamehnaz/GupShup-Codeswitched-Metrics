@@ -35,3 +35,5 @@ python metrics.py --data_dir /data/conversations_train_for_the_library.json \
 ```ne_tags.txt``` This contains the words/tokens that are tagged as Named Entities in the dataset.  </br>
 ```hi-Latn-wordbigrams.txt```  Is a huge and comprehensive lexicon of most common Hindi bigrams, written in Latin script, and not Devanagari. </br>
 
+The output of the script shows the following statistics:
+
