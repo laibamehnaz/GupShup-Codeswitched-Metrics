@@ -116,5 +116,6 @@ Figure(640x480)
 Figure for k non-native words distribution is saved in :/output/
 
 ```
-The above is the output for ```n=200```. 
+The above is the output for ```n=200```. The script also saves the bar graph of k-non-native foreign words into the output folder. For the above code, the following graph is generated and saved in the output folder.
+<img src="/" width="150" height="230">
 
