@@ -33,5 +33,5 @@ python metrics.py --data_dir /data/conversations_train_for_the_library.json \
 ```hindi_tags.txt``` This contains the words/tokens that are tagged as Hindi in the dataset. (The tags are given to words/tokens depending upon what conversation and what utterance they belong to.) </br>
 ```english_tags.txt``` This contains the words/tokens that are tagged as English in the dataset. (The tags are given to words/tokens depending upon what conversation and what utterance they belong to.) </br>
 ```ne_tags.txt``` This contains the words/tokens that are tagged as Named Entities in the dataset.  </br>
-```hi-Latn-wordbigrams.txt```  </br>
+```hi-Latn-wordbigrams.txt```  Is a huge and comprehensive lexicon of most common Hindi bigrams, written in Latin script, and not Devanagari. </br>
 
