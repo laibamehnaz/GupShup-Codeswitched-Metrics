@@ -28,3 +28,10 @@ python metrics.py --data_dir /data/conversations_train_for_the_library.json \
   --output_dir /output/ \
   --n 200
 ```
+
+```conversations_train_for_the_library.json``` This contains the Gupshup conversations and summaries with unique ids. </br>
+```hindi_tags.txt``` This contains the words/tokens that are tagged as Hindi in the dataset. (The tags are given to words/tokens depending upon what conversation and what utterance they belong to.) </br>
+```english_tags.txt``` This contains the words/tokens that are tagged as English in the dataset. (The tags are given to words/tokens depending upon what conversation and what utterance they belong to.) </br>
+```ne_tags.txt``` This contains the words/tokens that are tagged as Named Entities in the dataset.  </br>
+```hi-Latn-wordbigrams.txt```  </br>
+
