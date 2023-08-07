@@ -16,3 +16,15 @@ An example of a conversation from the dataset is:
 > **Leon**: <file_photo> </br>
 > </br>
 > (**English Summary**): Arthur is still unemployed. Leon sends him a job offer for junior project manager position. Arthur is interested.
+
+
+To use metrics.py, run the following command:
+```
+python metrics.py --data_dir /data/conversations_train_for_the_library.json \
+  --hindi_tags /data/hindi_tags.txt \
+  --english_tags /data/english_tags.txt \
+  --ne_tags /data/ne_tags.txt \
+  --hi_Latn_wordbigrams /data/hi-Latn-wordbigrams.txt \
+  --output_dir /output/ \
+  --n 200
+```
