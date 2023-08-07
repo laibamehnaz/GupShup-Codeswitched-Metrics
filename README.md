@@ -34,6 +34,87 @@ python metrics.py --data_dir /data/conversations_train_for_the_library.json \
 ```english_tags.txt``` This contains the words/tokens that are tagged as English in the dataset. (The tags are given to words/tokens depending upon what conversation and what utterance they belong to.) </br>
 ```ne_tags.txt``` This contains the words/tokens that are tagged as Named Entities in the dataset.  </br>
 ```hi-Latn-wordbigrams.txt```  Is a huge and comprehensive lexicon of most common Hindi bigrams, written in Latin script, and not Devanagari. </br>
+```n``` This is used to indicate the number of samples to be used to calculate the statistics for. Use -1 to use the entire dataset.
 
 The output of the script shows the following statistics:
+```
+------------ Dataset statistics ------------
+Total number of conversations: 200
+Total number of utterances: 2224
+Total number of code-mixed utterances: 747
+Total number of Hindi utterances: 980
+Total number of English utterances: 228
+
+Average length of utterances in the corpus: 9
+Average number of utterances per conversation: 11
+Average number of code-mixed utterances per conversation: 3
+Percentage of code-mixed utterances in the corpus: 33.59%
+Percentage of Hindi utterances in the corpus: 44.06%
+Percentage of English utterances in the corpus: 10.25%
+
+Total vocabulary size: 4012
+Total English vocabulary size: 349
+Total code-mixed English vocabulary size: 921
+Total Hindi vocabulary size: 1677
+Total ner vocabulary size: 343
+Total other vocabulary size: 1809
+
+Total number of code-mixed sentences: 786
+Total number of sentences with Hindi matrix: 631
+Total number of sentences with English matrix: 155
+
+Number of sentences with English insertions: 583
+Number of sentences with Hindi insertions: 152
+
+Number of sentences with English alternations: 47
+Number of sentences with Hindi alternations: 31
+
+Number of sentences with single word insertion(English) : 486
+Number of sentences with multi word insertion(English) : 144
+
+Number of sentences with single word insertion(Hindi) : 71
+Number of sentences with multi word insertion(Hindi) : 83
+
+**** Distribution of number of Hindi insertions in English matrix sentences: ****
+Number of sentences with 2 insertions: 44
+Number of sentences with 1 insertions: 45
+Number of sentences with 3 insertions: 27
+Number of sentences with 6 insertions: 6
+Number of sentences with 4 insertions: 16
+Number of sentences with 0 insertions: 7
+Number of sentences with 5 insertions: 7
+Number of sentences with 9 insertions: 1
+Number of sentences with 13 insertions: 1
+Number of sentences with 11 insertions: 1
+**** Distribution of number of English insertions in Hindi matrix sentences: ****
+Number of sentences with 1 insertions: 356
+Number of sentences with 2 insertions: 154
+Number of sentences with 4 insertions: 32
+Number of sentences with 5 insertions: 6
+Number of sentences with 3 insertions: 53
+Number of sentences with 7 insertions: 3
+Number of sentences with 6 insertions: 8
+Number of sentences with 0 insertions: 3
+Number of sentences with 9 insertions: 3
+Number of sentences with 10 insertions: 2
+Number of sentences with 19 insertions: 2
+Number of sentences with 11 insertions: 1
+Number of sentences with 8 insertions: 6
+Number of sentences with 14 insertions: 1
+Number of sentences with 12 insertions: 1
+
+K non-native(english) words distribution in the code-mixed corpora:
+k, sentences:
+(0, 0)
+(1, 439)
+(2, 175)
+(3, 69)
+(4, 42)
+(5, 11)
+(6, 12)
+Figure(640x480)
+Figure for k non-native words distribution is saved in :/output/
+
+```
+The above is the output for ```n=200```. 
 
